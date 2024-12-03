@@ -23,7 +23,8 @@ const verificarToken = (req, res, next) => {
     }
     
 
-    const token = authHeader.split (' ' [1]);
+    const token = authHeader.split(' ')[1];
+
     
     jwt.verify(token, SECRET_KEY, (err, user)=>{
         if (err) {
@@ -64,8 +65,8 @@ app.post("/login", (req, res) => {
 
   
 
-app.get ("/home", (req, res) => {
-    res.send("Acceso Accedido")
+app.get ("/usuarios", verificarToken, (req, res) => {
+    res.send("Acceso Accedido a la ruta usuarios")
 })
 
 
