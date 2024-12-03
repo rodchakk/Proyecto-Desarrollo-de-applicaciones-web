@@ -1,84 +1,56 @@
-const express = require('express');
-const jwt = require('jsonwebtoken');
-const SECRET_KEY = ('password');
+const express = require("express");
+const jwt = require("jsonwebtoken");
+const SECRET_KEY = "password";
 const port = 3000;
 
+const app = express();
 
-const app = express ();
-
-
-app.use (express.json ());
-
-
+app.use(express.json());
 
 
 
 
 //middleware
 const verificarToken = (req, res, next) => {
-    const authHeader = req.headers['authorization'];
-    
-    if (!authHeader) {
-        return res.status(401).json({message: 'token no proporcionado'});
+  const authHeader = req.headers["authorization"];
+
+  if (!authHeader) {
+    return res.status(401).json({ message: "token no proporcionado" });
+  }
+
+  const token = authHeader.split(" ")[1];
+
+  jwt.verify(token, SECRET_KEY, (err, user) => {
+    if (err) {
+      return res.status(403).json({ mensaje: "Token Invalido o expirado" });
     }
-    
+    req.user = user;
 
-    const token = authHeader.split(' ')[1];
-
-    
-    jwt.verify(token, SECRET_KEY, (err, user)=>{
-        if (err) {
-            return res.status(403).json ({mensaje: 'Token Invalido o expirado'})
-        }
-        req.user = user;
-
-        next();
-
-    } );
-    
-    
-    }
-    
+    next();
+  });
+};
 
 
 
-
+//apps
 
 app.post("/login", (req, res) => {
-    const {username , password} = req.body;
+  const { username, password } = req.body;
 
-    if (username === 'admin' && password === '1234') {
-        const token = jwt.sign({username}, SECRET_KEY, {expiresIn: '2h'});
-        res.json({mensaje: 'Successs', token});
-
-    }
-    else {
-        res.status(401).jason({mensaje: 'Credenciales invalidas'});
-    }
-
-
+  if (username === "admin" && password === "1234") {
+    const token = jwt.sign({ username }, SECRET_KEY, { expiresIn: "2h" });
+    res.json({ mensaje: "Successs", token });
+    console.log("Usuario ha ingresado");
+  } else {
+    res.status(401).jason({ mensaje: "Credenciales invalidas" });
+  }
 
   res.send("usuario");
-
 });
 
-
-  
-
-app.get ("/usuarios", verificarToken, (req, res) => {
-    res.send("Acceso Accedido a la ruta usuarios")
-})
-
-
-
-
-
-
-
-
-
-
-
+app.get("/usuarios", verificarToken, (req, res) => {
+  res.send("Acceso Accedido a la ruta usuarios");
+});
 
 
 
@@ -86,6 +58,5 @@ app.get ("/usuarios", verificarToken, (req, res) => {
 
 
 app.listen(port, () => {
-    console.log("Servidor corriendo en http://localhost:3000");
-  });
-  
+  console.log("Servidor corriendo en http://localhost:3000");
+});
