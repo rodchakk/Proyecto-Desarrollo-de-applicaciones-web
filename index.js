@@ -1,5 +1,6 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
+const SECRET_KEY = ('password');
 const port = 3000;
 
 
@@ -21,8 +22,19 @@ const verificarToken = (req, res, next) => {
         return res.status(401).json({message: 'token no proporcionado'});
     }
     
+
+    const token = authHeader.split (' ' [1]);
     
-    next();
+    jwt.verify(token, SECRET_KEY, (err, user)=>{
+        if (err) {
+            return res.status(403).json ({mensaje: 'Token Invalido o expirado'})
+        }
+        req.user = user;
+
+        next();
+
+    } );
+    
     
     }
     
@@ -31,9 +43,20 @@ const verificarToken = (req, res, next) => {
 
 
 
+app.post("/login", (req, res) => {
+    const {username , password} = req.body;
+
+    if (username === 'admin' && password === '1234') {
+        const token = jwt.sign({username}, SECRET_KEY, {expiresIn: '2h'});
+        res.json({mensaje: 'Successs', token});
+
+    }
+    else {
+        res.status(401).jason({mensaje: 'Credenciales invalidas'});
+    }
 
 
-app.post("/login", verificarToken, (req, res) => {
+
   res.send("usuario");
 
 });
@@ -41,6 +64,9 @@ app.post("/login", verificarToken, (req, res) => {
 
   
 
+app.get ("/home", (req, res) => {
+    res.send("Acceso Accedido")
+})
 
 
 
