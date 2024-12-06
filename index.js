@@ -62,7 +62,7 @@ app.post("/login",   (req, res) => {
 //verificarToken, agregar a app.get despues de pruebas
 app.get("/inventario", verificarToken, (req, res) => {
   const sql = "select * from tr_usuario";
-  res.send("Acceso a formulario de inventario");
+   return res.send("Acceso a formulario de inventario");
   conexion.query(sql, (err, resultado) => {
     if (err) {
       res.status(500).json({ error: "Error al obtener los datos" });
