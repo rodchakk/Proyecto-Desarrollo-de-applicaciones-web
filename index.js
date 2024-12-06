@@ -46,7 +46,7 @@ const verificarToken = (req, res, next) => {
 
 //apps
 
-app.post("/login", (req, res) => {
+app.post("/login",   (req, res) => {
   const { username, password } = req.body;
 
   if (username === "admin" && password === "1234") {
@@ -75,8 +75,21 @@ app.get("/inventario", verificarToken, (req, res) => {
 //administrador de usuarios
 
 app.get("/usuarios", (req, res) => {
-  const sql = "select * from tr_usuario";
-  conexion.query(sql, (err, resultado) => {
+  const { codigo } = req.query; 
+
+  let sql;
+  const params = [];
+
+  if (codigo) {
+
+    sql = "SELECT * FROM tr_usuario WHERE codigo = ?";
+    params.push(codigo);
+  } else {
+
+    sql = "SELECT * FROM tr_usuario";
+  }
+
+  conexion.query(sql, params, (err, resultado) => {
     if (err) {
       res.status(500).json({ error: "Error al obtener los datos" });
     } else {
@@ -84,6 +97,7 @@ app.get("/usuarios", (req, res) => {
     }
   });
 });
+
 
 app.post("/usuarios", (req, res) => {
   const { username, password, estado } = req.body;
