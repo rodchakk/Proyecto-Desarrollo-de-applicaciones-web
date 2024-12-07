@@ -80,7 +80,7 @@ app.post("/login", (req, res) => {
 
 ///////////////////////administrador de usuarios
 
-app.get("/usuarios", (req, res) => {
+app.get("/usuarios",verificarToken, (req, res) => {
   const sql = "select * from tr_usuario";
   conexion.query(sql, (err, resultado) => {
     if (err) {
@@ -91,6 +91,10 @@ app.get("/usuarios", (req, res) => {
   });
 });
 
+
+
+
+/////////////////agregar usuarios
 app.post("/usuarios", (req, res) => {
   const { username, password, estado } = req.body;
   console.log(req.body);
@@ -113,12 +117,11 @@ app.post("/usuarios", (req, res) => {
 });
 
 
-//////////actualizar usuarios
+///////////////////actualizar usuarios
 app.put('/usuarios', (req, res) => {
   const { codigo, username, password, estado } = req.body;
-  console.log('Datos recibidos:', req.body);  // Esto te permitirá ver qué datos estás recibiendo
+  console.log('Datos recibidos:', req.body);  
 
-  // Validación de campos obligatorios
   if (!codigo || !username || !password || !estado) {
     return res.status(400).json({ error: 'Todos los campos son obligatorios' });
   }
@@ -168,7 +171,7 @@ app.put('/usuarios', (req, res) => {
 ///////////////////////administrador de productos
 //pagina de productos, muestra todos los productos
 //verificarToken agregar despues de pruebas
-app.get('/productos', (req,res)=>{
+app.get('/productos',verificarToken, (req,res)=>{
   const sql = 'select * from tr_producto';
   conexion.query(sql, (err, resultado) =>{
       if(err){
@@ -180,7 +183,9 @@ app.get('/productos', (req,res)=>{
 });
 
 
-app.put('/productos', (req, res)=>{
+
+////////////////agregar nuevo producto/////////////////////////////////
+app.put('/productos',verificarToken, (req, res)=>{
   const { producto, descripcion, categoria, precio, cantidad, id_producto } = req.body;
 
   if (!producto || !descripcion || !categoria || !precio || !cantidad || !id_producto) {
@@ -208,8 +213,23 @@ app.put('/productos', (req, res)=>{
 
 
 
+//actualizar producto existente////////////////////////
+app.post('/productos', (req, res)=>{
+  const producto = req.body;
+  const sql ='insert into tr_producto (producto,descripcion,categoria,precio,cantidad) values(?,?,?,?,?)';
 
+  if(!producto.producto || !producto.descripcion || !producto.categoria || !producto.precio || !producto.cantidad){
+      return res.status(400).json({error:'Todos los campos son obligatorios'});
+  }
 
+  conexion.query(sql, [producto.producto,producto.descripcion,producto.categoria,producto.precio,producto.cantidad],(err, resultado)=>{
+      if(err){
+          res.status(500).json({error:'Error al agregar el producto'});
+      }else{
+          res.status(201).json({mesaje:'Producto agregado',codigo: resultado.insertId});
+      }
+  });
+});
 
 
 
