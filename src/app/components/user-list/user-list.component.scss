@@ -1,0 +1,39 @@
+.list-label {
+  text-align: center; 
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.list-header, .list-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr 1fr 1fr; 
+  align-items: center;
+  padding: 0.5rem;
+  border-bottom: 1px solid #ccc; 
+}
+
+.list-header {
+  background-color: #f1f1f1; 
+  font-weight: bold;
+}
+
+.list-item {
+  text-align: center; 
+}
+
+.list-row:hover {
+  background-color: #f9f9f9; 
+}
+
+button {
+  justify-self: center; 
+}
+
+.actions {
+  margin-top: 1rem;
+  text-align: center; 
+}
+
+.btn {
+  margin: 0 0.5rem; 
+}

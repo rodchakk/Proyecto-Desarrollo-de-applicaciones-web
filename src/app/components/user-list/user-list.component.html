@@ -1,0 +1,29 @@
+<br>
+<h2 class="list-label">Administración de Usuarios</h2>
+
+<div class="list-header">
+  <p class="list-item">ID</p>
+  <p class="list-item">Usuario</p>
+  <p class="list-item">Password</p>
+  <p class="list-item">Estado</p>
+  <p class="list-item"></p>
+</div>
+
+<div class="list">
+  <div class="list-row" *ngFor="let user of users">
+    <p class="list-item">{{ user.codigo }}</p>
+    <p class="list-item">{{ user.username }}</p>
+    <p class="list-item">{{ user.password }}</p>
+    <p class="list-item">{{ user.estado }}</p>
+    <button class="btn btn-secondary" (click)="onEditUser(user)">Editar</button>
+  </div>
+</div>
+
+<div class="actions">
+  <button class="btn btn-primary" (click)="onAddUser()">Agregar Usuario</button>
+</div>
+
+
+
+
+

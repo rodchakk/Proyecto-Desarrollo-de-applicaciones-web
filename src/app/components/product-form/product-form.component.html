@@ -1,0 +1,39 @@
+<h1 mat-dialog-title>{{ data ? 'Editar Producto' : 'Añadir Producto' }}</h1>
+
+<form [formGroup]="productForm">
+  <mat-form-field>
+    <mat-label>Id</mat-label>
+    <input matInput formControlName="id_producto" required>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Producto</mat-label>
+    <input matInput formControlName="producto" required>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Categoría</mat-label>
+    <input matInput formControlName="categoria" required>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Precio</mat-label>
+    <input matInput formControlName="precio" type="number" required>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Cantidad</mat-label>
+    <input matInput formControlName="cantidad" type="number" required>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Descripción</mat-label>
+    <input matInput formControlName="descripcion" required>
+  </mat-form-field>
+
+  <div mat-dialog-actions>
+    <button mat-button (click)="onCancel()">Cancelar</button>
+    <button mat-button [disabled]="productForm.invalid" (click)="onSave()">Guardar</button>
+  </div>
+</form>
+

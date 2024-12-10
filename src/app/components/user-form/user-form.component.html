@@ -1,0 +1,26 @@
+<h2 class="form-title">{{ data ? 'Editar Usuario' : 'Agregar Usuario' }}</h2>
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="user-form">
+  <div class="form-group">
+    <label for="codigo">Código:</label>
+    <input id="codigo" formControlName="codigo" class="form-control" />
+  </div>
+  <div class="form-group">
+    <label for="username">Nombre de Usuario:</label>
+    <input id="username" formControlName="username" class="form-control" />
+  </div>
+  <div class="form-group">
+    <label for="password">Contraseña:</label>
+    <input id="password" type="password" formControlName="password" class="form-control" />
+  </div>
+  <div class="form-group">
+    <label for="estado">Estado:</label>
+    <select id="estado" formControlName="estado" class="form-control">
+      <option value="1">1</option>
+      <option value="0">0</option>
+    </select>
+  </div>
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancelar</button>
+  </div>
+</form>

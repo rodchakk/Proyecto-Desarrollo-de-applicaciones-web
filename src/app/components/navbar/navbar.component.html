@@ -1,0 +1,11 @@
+<mat-toolbar color="primary">
+    <span>Proyecto Grupo #1</span>
+    <span class="spacer"></span>
+    <button mat-button routerLink="/home">Inicio</button>
+    <button mat-button routerLink="/products">Productos</button>
+    <button mat-button routerLink="/user-list">Usuarios</button>
+    <button mat-button color="warn" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        Cerrar Sesión
+    </button>
+</mat-toolbar>
